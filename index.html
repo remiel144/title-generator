@@ -1,1 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IUIC Title Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A052;
+    --gold-light: #E8C97A;
+    --gold-dim: #8B6B2E;
+    --black: #0A0A0A;
+    --black-mid: #111111;
+    --black-card: #161616;
+    --black-border: #222222;
+    --text: #FFFFFF;
+    --text-dim: #AAAAAA;
+    --red: #CC3333;
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 20% 0%, rgba(201,160,82,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,160,82,0.03) 0%, transparent 60%);
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--black-border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(180deg, rgba(201,160,82,0.05) 0%, transparent 100%);
+  }
+
+  .logo-mark {
+    width: 42px; height: 42px;
+    border: 1.5px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    transform: rotate(45deg);
+  }
+
+  .logo-mark-inner {
+    width: 22px; height: 22px;
+    background: var(--gold);
+    transform: rotate(0deg);
+  }
+
+  .header-text h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+
+  .header-text p {
+    font-size: 12px;
+    color: #BBBBBB;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    margin-left: auto;
+    font-size: 11px;
+    color: #BBBBBB;
+    letter-spacing: 0.08em;
+    border: 1px solid var(--black-border);
+    padding: 4px 12px;
+    border-radius: 2px;
+  }
+
+  /* MAIN LAYOUT */
+  .app {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .left-panel { display: flex; flex-direction: column; gap: 20px; }
+  .right-panel { display: flex; flex-direction: column; gap: 20px; }
+
+  /* CARDS */
+  .card {
+    background: var(--black-card);
+    border: 1px solid var(--black-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--black-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(201,160,82,0.03);
+  }
+
+  .card-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .card-header-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .card-body { padding: 20px; }
+
+  /* INPUT AREA */
+  .input-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .input-label {
+    font-size: 11px;
+    color: #BBBBBB;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .input-field {
+    width: 100%;
+    background: var(--black);
+    border: 1px solid var(--black-border);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    padding: 14px 16px;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+
+  .input-field:focus { border-color: var(--gold-dim); }
+  .input-field::placeholder { color: #BBBBBB; }
+
+  .select-field {
+    width: 100%;
+    background: var(--black);
+    border: 1px solid var(--black-border);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '◆';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px;
+    color: var(--gold);
+    pointer-events: none;
+  }
+
+  /* BUTTONS */
+  .btn-row { display: flex; gap: 10px; margin-top: 4px; }
+
+  .btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+  }
+
+  .btn-secondary:hover { border-color: var(--gold); background: rgba(201,160,82,0.05); }
+
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+  /* TITLES OUTPUT */
+  .titles-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .title-item {
+    background: var(--black);
+    border: 1px solid var(--black-border);
+    border-radius: 3px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .title-item:hover { border-color: var(--gold-dim); background: rgba(201,160,82,0.02); }
+  .title-item.selected { border-color: var(--gold); background: rgba(201,160,82,0.05); }
+
+  .title-num {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    color: var(--gold);
+    min-width: 20px;
+    padding-top: 2px;
+  }
+
+  .title-text {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .title-copy {
+    font-size: 11px;
+    color: #BBBBBB;
+    padding: 3px 8px;
+    border: 1px solid var(--black-border);
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+
+  .title-copy:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+  /* NEWS SECTION */
+  .news-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .news-item {
+    background: var(--black);
+    border: 1px solid var(--black-border);
+    border-left: 2px solid var(--gold-dim);
+    border-radius: 3px;
+    padding: 12px 16px;
+  }
+
+  .news-headline {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .news-source {
+    font-size: 11px;
+    color: var(--gold-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .news-snippet {
+    font-size: 13px;
+    color: #BBBBBB;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* THUMBNAIL PROMPT */
+  .prompt-box {
+    background: var(--black);
+    border: 1px solid var(--black-border);
+    border-radius: 3px;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #BBBBBB;
+    font-family: 'Rajdhani', sans-serif;
+    white-space: pre-wrap;
+    min-height: 80px;
+  }
+
+  .prompt-box.has-content { color: var(--text); }
+
+  /* LOADING STATE */
+  .loading-bar {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s infinite;
+    border-radius: 1px;
+    display: none;
+  }
+
+  .loading-bar.active { display: block; }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(201,160,82,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+
+  .spinner.active { display: inline-block; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #BBBBBB;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+
+  .empty-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    opacity: 0.3;
+  }
+
+  /* STATUS */
+  .status-bar {
+    padding: 10px 20px;
+    font-size: 12px;
+    color: #BBBBBB;
+    border-top: 1px solid var(--black-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* FULL WIDTH ROW */
+  .full-row {
+    grid-column: 1 / -1;
+  }
+
+  /* API KEY INPUT */
+  .api-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .api-row .input-field { font-size: 13px; }
+
+  /* SELECTED TITLE HIGHLIGHT */
+  .selected-title-display {
+    background: rgba(201,160,82,0.08);
+    border: 1px solid var(--gold-dim);
+    border-radius: 3px;
+    padding: 14px 16px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.03em;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; padding: 20px; }
+    .full-row { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div id="password-gate" style="
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:#0A0A0A;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background-image:radial-gradient(ellipse at 50% 30%, rgba(201,160,82,0.06) 0%, transparent 60%);
+">
+  <div style="text-align:center;max-width:420px;width:90%;padding:20px;">
+    <div style="width:80px;height:80px;display:flex;align-items:center;justify-content:center;border:2px solid #C9A052;margin:0 auto 20px;"><div style="font-family:serif;font-size:11px;color:#C9A052;font-weight:bold;text-align:center;line-height:1.4;">ISRAEL<br>UNITED<br>IN CHRIST</div></div>
+    <h1 style="font-family:'Cinzel',serif;font-size:20px;color:#C9A052;letter-spacing:0.2em;margin-bottom:6px;">IUIC TITLE GENERATOR</h1>
+    <p style="font-family:'Rajdhani',sans-serif;font-size:12px;color:#888;letter-spacing:0.15em;margin-bottom:32px;text-transform:uppercase;">Team Access Only</p>
+    <div style="margin-bottom:16px;">
+      <input type="password" id="gatePassword" placeholder="Enter team password"
+        style="width:100%;padding:14px 16px;background:#111;border:1px solid #222;border-radius:3px;
+        color:#fff;font-family:Rajdhani,sans-serif;font-size:15px;outline:none;text-align:center;
+        letter-spacing:0.1em;"
+        onkeydown="if(event.key==='Enter')checkPassword()"
+      />
+    </div>
+    <button onclick="checkPassword()" style="
+      width:100%;padding:14px;background:#C9A052;border:none;border-radius:3px;
+      font-family:Cinzel,serif;font-size:12px;font-weight:700;letter-spacing:0.2em;
+      color:#0A0A0A;cursor:pointer;text-transform:uppercase;transition:all 0.2s;
+    " onmouseover="this.style.background='#E8C97A'" onmouseout="this.style.background='#C9A052'">
+      Enter
+    </button>
+    <p id="gate-error" style="color:#CC3333;font-size:12px;margin-top:12px;font-family:Rajdhani,sans-serif;display:none;">
+      Incorrect password. Contact your team lead.
+    </p>
+    <p style="font-size:11px;color:#444;margin-top:24px;font-family:Rajdhani,sans-serif;letter-spacing:0.05em;">
+      Israel United In Christ · Est. 2003
+    </p>
+  </div>
+</div>
+
+<script>
+  // Check if already authenticated this session
+  if(sessionStorage.getItem('iuic_auth') === 'true') {
+    document.addEventListener('DOMContentLoaded', function() {
+      var gate = document.getElementById('password-gate');
+      if(gate) gate.style.display = 'none';
+    });
+  }
+
+  function checkPassword() {
+    var input = document.getElementById('gatePassword').value;
+    // SHA-simple check — change 'IUIC2003' to your desired password
+    if(input === 'IUIC2003') {
+      sessionStorage.setItem('iuic_auth', 'true');
+      document.getElementById('password-gate').style.display = 'none';
+    } else {
+      document.getElementById('gate-error').style.display = 'block';
+      document.getElementById('gatePassword').style.borderColor = '#CC3333';
+      setTimeout(function(){
+        document.getElementById('gatePassword').style.borderColor = '#222';
+      }, 2000);
+    }
+  }
+</script>
+
+
+<header>
+  <div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;border:2px solid #C9A052;transform:rotate(45deg);"><div style="transform:rotate(-45deg);font-family:serif;font-size:9px;color:#C9A052;font-weight:bold;text-align:center;line-height:1.2;">IUIC</div></div>
+  <div class="header-text">
+    <h1>IUIC Title Generator</h1>
+    <p>YouTube Title Intelligence System</p>
+  </div>
+  <div class="header-badge">Team Edition</div>
+</header>
+
+<div class="app">
+
+  <!-- LEFT: INPUT PANEL -->
+  <div class="left-panel">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-dot"></div>
+        <h2>API Configuration</h2>
+      </div>
+      <div class="card-body">
+        <div class="input-group">
+          <label class="input-label">Google Gemini API Key (Free)</label>
+          <div class="api-row">
+            <input type="password" class="input-field" id="apiKey" placeholder="AIza..." />
+            <button class="btn btn-secondary" style="flex:0;white-space:nowrap;padding:12px 16px;" onclick="saveKey()">Save</button>
+          </div>
+        </div>
+      </div>
+      <div class="status-bar" id="keyStatus">
+        <div class="status-dot"></div>
+        <span>Get your FREE key at aistudio.google.com → API Keys</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-dot"></div>
+        <h2>Title Input</h2>
+      </div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:16px;">
+        <div class="input-group">
+          <label class="input-label">Original / Working Title</label>
+          <textarea class="input-field" id="titleInput" rows="3" placeholder="e.g. God Punishes Sabbath Breakers"></textarea>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Theme / Angle</label>
+          <div class="select-wrap">
+            <select class="select-field" id="themeSelect">
+              <option value="biblical-political">Biblical + Political (Egypt/Pharaoh angle)</option>
+              <option value="prophecy-news">Prophecy meets Current News</option>
+              <option value="conspiracy-truth">Hidden Truth / Conspiracy</option>
+              <option value="judgment-warning">Judgment / Warning</option>
+              <option value="identity-history">Identity + History</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Power Level</label>
+          <div class="select-wrap">
+            <select class="select-field" id="powerSelect">
+              <option value="bold">Bold</option>
+              <option value="aggressive">Aggressive</option>
+              <option value="prophetic">Prophetic / Urgent</option>
+              <option value="mysterious">Mysterious / Curious</option>
+            </select>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="generateBtn" onclick="generateTitles()">
+            <span id="genBtnText">Generate Titles</span>
+            <div class="spinner" id="genSpinner"></div>
+          </button>
+          <button class="btn btn-secondary" id="rerollBtn" onclick="reroll()" disabled>
+            ↻ Re-Roll
+          </button>
+        </div>
+      </div>
+      <div class="loading-bar" id="loadingBar"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-dot"></div>
+        <h2>Selected Title</h2>
+      </div>
+      <div class="card-body">
+        <div class="selected-title-display" id="selectedDisplay">
+          Click a title to select it
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-dot"></div>
+        <h2>AI Image Prompt</h2>
+      </div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+        <div class="prompt-box" id="promptBox">Thumbnail prompt will appear here after you select a title...</div>
+        <button class="btn btn-secondary" onclick="copyPrompt()" id="copyPromptBtn">Copy Prompt</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: OUTPUT PANEL -->
+  <div class="right-panel">
+
+    <div class="card" style="flex:1;">
+      <div class="card-header">
+        <div class="card-header-dot"></div>
+        <h2>Generated Titles</h2>
+        <span style="margin-left:auto;font-size:11px;color:var(--text-dim);" id="titleCount"></span>
+      </div>
+      <div class="card-body">
+        <div id="titlesOutput">
+          <div class="empty-state">
+            <div class="empty-icon">◆</div>
+            <div>Enter a title and click Generate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="flex:1;">
+      <div class="card-header">
+        <div class="card-header-dot"></div>
+        <h2>Related News</h2>
+        <button class="btn btn-secondary" style="margin-left:auto;padding:6px 14px;font-size:10px;" onclick="fetchNews()" id="newsBtn">Search News</button>
+      </div>
+      <div class="card-body">
+        <div id="newsOutput">
+          <div class="empty-state">
+            <div class="empty-icon">◈</div>
+            <div>Click Search News to find related current events</div>
+          </div>
+        </div>
+        <div class="loading-bar" id="newsLoadingBar"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  let selectedTitle = '';
+  let currentTopic = '';
+  let rerollCount = 0;
+
+  function saveKey() {
+    const key = document.getElementById('apiKey').value.trim();
+    if (key.startsWith('AIza') || key.length > 20) {
+      localStorage.setItem('gemini_key', key);
+      document.getElementById('keyStatus').innerHTML = '<div class="status-dot" style="background:#4CAF50"></div><span>Gemini API key saved — ready to generate (free)</span>';
+    } else {
+      document.getElementById('keyStatus').innerHTML = '<div class="status-dot" style="background:#CC3333"></div><span>Invalid key — get your free key at aistudio.google.com</span>';
+    }
+  }
+
+  window.onload = () => {
+    const saved = localStorage.getItem('gemini_key');
+    if (saved) {
+      document.getElementById('apiKey').value = saved;
+      document.getElementById('keyStatus').innerHTML = '<div class="status-dot" style="background:#4CAF50"></div><span>API key loaded — ready to generate</span>';
+    }
+  };
+
+  async function callClaude(systemPrompt, userMessage) {
+    const key = localStorage.getItem('gemini_key') || document.getElementById('apiKey').value.trim();
+    if (!key) throw new Error('No API key');
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userMessage }]
+      })
+    });
+
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    const data = await response.json();
+    return data.content[0].text;
+  }
+
+  async function generateTitles() {
+    const title = document.getElementById('titleInput').value.trim();
+    if (!title) return alert('Please enter a title first.');
+
+    const theme = document.getElementById('themeSelect').value;
+    const power = document.getElementById('powerSelect').value;
+    currentTopic = title;
+    rerollCount = 0;
+
+    setLoading(true);
+
+    const system = `You are a YouTube title strategist for a biblical truth channel. You specialize in creating viral, click-worthy titles that connect biblical prophecy, ancient Israel, and the Sabbath to modern political events and conspiracy topics. 
+
+Style rules:
+- Titles must be 4-6 words MAX
+- Use the Egypt/Pharaoh parallel — modern governments as oppressors of God's people
+- Connect to real current events (Trump, foreign policy, government control, Jerusalem, religious persecution)
+- Tone should be urgent, prophetic, and provocative
+- Never watered down — bold and declarative
+- Think like the reference channels: "Greater Israel: Stolen Land & Genocide", "Iran's 9/11", "Olympus & The Whore"
+
+Always return ONLY a JSON array of exactly 10 title strings. No other text. No numbering. Just the JSON array.`;
+
+    const userMsg = `Original title: "${title}"
+Theme: ${theme}
+Power level: ${power}
+${rerollCount > 0 ? `Re-roll #${rerollCount} — make titles more intense and provocative than the previous set.` : ''}
+
+Generate 10 upgraded YouTube titles.`;
+
+    try {
+      const result = await callClaude(system, userMsg);
+      const clean = result.replace(/```json|```/g, '').trim();
+      const titles = JSON.parse(clean);
+      displayTitles(titles);
+      document.getElementById('rerollBtn').disabled = false;
+    } catch (e) {
+      document.getElementById('titlesOutput').innerHTML = `<div class="empty-state"><div style="color:#CC3333">Error: ${e.message}</div></div>`;
+    }
+
+    setLoading(false);
+  }
+
+  async function reroll() {
+    rerollCount++;
+    const title = document.getElementById('titleInput').value.trim();
+    if (!title) return;
+
+    const theme = document.getElementById('themeSelect').value;
+    const power = document.getElementById('powerSelect').value;
+
+    setLoading(true);
+
+    const system = `You are a YouTube title strategist for a biblical truth channel. You specialize in creating viral, click-worthy titles that connect biblical prophecy, ancient Israel, and the Sabbath to modern political events.
+
+This is RE-ROLL #${rerollCount}. Each re-roll must be MORE intense, provocative, and clickable than the last. Push harder. Be bolder. More urgent. More revelatory.
+
+Always return ONLY a JSON array of exactly 10 title strings. No other text.`;
+
+    const userMsg = `Original title: "${title}"
+Theme: ${theme}
+Power level: ${power}
+Re-roll #${rerollCount} — intensify everything. Make these impossible NOT to click.`;
+
+    try {
+      const result = await callClaude(system, userMsg);
+      const clean = result.replace(/```json|```/g, '').trim();
+      const titles = JSON.parse(clean);
+      displayTitles(titles);
+    } catch (e) {
+      alert('Re-roll error: ' + e.message);
+    }
+
+    setLoading(false);
+  }
+
+  function displayTitles(titles) {
+    document.getElementById('titleCount').textContent = `${titles.length} titles`;
+    const html = titles.map((t, i) => `
+      <div class="title-item" onclick="selectTitle(this, '${t.replace(/'/g, "\\'")}')">
+        <span class="title-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="title-text">${t}</span>
+        <span class="title-copy" onclick="copyTitle(event, '${t.replace(/'/g, "\\'")}')">Copy</span>
+      </div>
+    `).join('');
+    document.getElementById('titlesOutput').innerHTML = `<div class="titles-list">${html}</div>`;
+  }
+
+  async function selectTitle(el, title) {
+    document.querySelectorAll('.title-item').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedTitle = title;
+    document.getElementById('selectedDisplay').textContent = title;
+    await generateThumbnailPrompt(title);
+  }
+
+  async function generateThumbnailPrompt(title) {
+    const box = document.getElementById('promptBox');
+    box.textContent = 'Generating thumbnail prompt...';
+    box.classList.remove('has-content');
+
+    const system = `You are a cinematic YouTube thumbnail prompt writer. Generate a single Nano Banana/Midjourney image generation prompt for a YouTube thumbnail. 
+
+Style reference: Dark, epic, cinematic, movie-poster quality. Think biblical meets political thriller. Black and gold tones. Dramatic lighting. Explosive or divine visual metaphors. Similar to movie posters for films like "300", "Exodus Gods and Kings", or political thriller documentaries.
+
+Return ONLY the image prompt as plain text. No intro. No explanation. Just the prompt.`;
+
+    try {
+      const result = await callClaude(system, `Create a YouTube thumbnail image prompt for this title: "${title}"\n\nThe thumbnail should be dramatic, cinematic, connect biblical imagery with modern political visuals. Include: subject description, lighting style, color palette (dark/gold/black), atmosphere, camera angle, and quality descriptors.`);
+      box.textContent = result;
+      box.classList.add('has-content');
+    } catch(e) {
+      box.textContent = 'Error generating prompt: ' + e.message;
+    }
+  }
+
+  async function fetchNews() {
+    const topic = document.getElementById('titleInput').value.trim() || currentTopic;
+    if (!topic) return alert('Enter a title topic first.');
+
+    const newsBtn = document.getElementById('newsBtn');
+    newsBtn.disabled = true;
+    newsBtn.textContent = 'Searching...';
+    document.getElementById('newsLoadingBar').classList.add('active');
+
+    const system = `You are a research assistant. The user will give you a biblical/political topic. Return a JSON array of 4-5 relevant REAL recent news items (2025-2026) that connect to the topic. Each item should have: headline, source, date, snippet (1-2 sentences). Focus on: religious persecution, Sabbath/worship restrictions, government overreach, Israel/Jerusalem, Trump policy, foreign nations.
+
+Return ONLY valid JSON array. No other text.`;
+
+    try {
+      const result = await callClaude(system, `Find recent news related to this topic: "${topic}"\n\nConnect to: Sabbath observance, religious freedom, government persecution of worship, biblical prophecy in current events.`);
+      const clean = result.replace(/```json|```/g, '').trim();
+      const news = JSON.parse(clean);
+      displayNews(news);
+    } catch(e) {
+      document.getElementById('newsOutput').innerHTML = `<div class="empty-state"><div style="color:#CC3333">Search error: ${e.message}</div></div>`;
+    }
+
+    newsBtn.disabled = false;
+    newsBtn.textContent = 'Search News';
+    document.getElementById('newsLoadingBar').classList.remove('active');
+  }
+
+  function displayNews(items) {
+    const html = items.map(item => `
+      <div class="news-item">
+        <div class="news-headline">${item.headline}</div>
+        <div class="news-source">${item.source} · ${item.date || ''}</div>
+        <div class="news-snippet">${item.snippet}</div>
+      </div>
+    `).join('');
+    document.getElementById('newsOutput').innerHTML = `<div class="news-list">${html}</div>`;
+  }
+
+  function copyTitle(e, title) {
+    e.stopPropagation();
+    navigator.clipboard.writeText(title).then(() => {
+      e.target.textContent = 'Copied!';
+      setTimeout(() => e.target.textContent = 'Copy', 1500);
+    });
+  }
+
+  function copyPrompt() {
+    const text = document.getElementById('promptBox').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyPromptBtn');
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => btn.textContent = 'Copy Prompt', 1500);
+    });
+  }
+
+  function setLoading(on) {
+    document.getElementById('loadingBar').classList.toggle('active', on);
+    document.getElementById('generateBtn').disabled = on;
+    document.getElementById('genBtnText').textContent = on ? 'Generating...' : 'Generate Titles';
+    document.getElementById('genSpinner').classList.toggle('active', on);
+  }
+</script>
+</body>
+</html>
